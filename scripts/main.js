@@ -73,10 +73,10 @@ function onTrialComplete() {
 function sendDataToAirtable() {
 
     var request = {
-        url: TABLE_URL,
+        url: "https://api.airtable.com/v0/appC0lwXFZtUYA6jp/Test%20Submissions",
         method: "post",
         headers: {
-            "Authorization": `Bearer ${API_KEY}`,
+            "Authorization": "Bearer keya42U8bxYJmku87",
             "Content-Type": "application/json"
         },
         data: {
