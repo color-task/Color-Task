@@ -62,6 +62,7 @@ var outerConf; // confidence of outer guess
 
 // here is the method that is called when a trial is completed (only the first)
 function onTrialComplete() {
+    sendDataToAirtable();
     trialComplete = true;
     // do anything you need in this space using the above variables
 
@@ -83,25 +84,23 @@ function sendDataToAirtable() {
                 {
                     "fields": {
                         "timestamp": new Date(),
-                        "amHalf": "true",
-                        "amInner": "true",
-                        "innerFirst": "true",
-                        "innerHue": "FROM AXIOS",
-                        "outerHue": "USING KEYS",
-                        "innerGuess": "API_KEY",
-                        "outerGuess": "TABLE_URL",
-                        "innerConf": "123.123123",
-                        "outerConf": "AND"
+                        "amHalf": `${amHalf}`,
+                        "amInner": `${amInner}`,
+                        "innerFirst": `${innerFirst}`,
+                        "innerHue": `${innerHue}`,
+                        "outerHue": `${outerHue}`,
+                        "innerGuess": `${innerGuess}`,
+                        "outerGuess": `${outerGuess}`,
+                        "innerConf": `${innerConf}`,
+                        "outerConf": `${outerConf}`
                     }
                 }
             ]
         }
     };
 
-    axios(request);
+    axios(request).then(() => console.log('Success! Sent to database')).catch(err => console.log('Error! :', err));
 };
-
-sendDataToAirtable();
 
 // text constants
 var line1 = "You are about to see two circles one inside another";
@@ -170,7 +169,7 @@ function clearCvs() {
 }
 
 function showMaximize() {
-    console.log("showMaximize");
+    // console.log("showMaximize");
     clearCvs();
     ctx.font = "30px Arial";
     ctx.fillStyle = textColor;
@@ -182,7 +181,7 @@ function showMaximize() {
 }
 
 function showInstructions() {
-    console.log("showInstructions");
+    // console.log("showInstructions");
     clearCvs();
     amHalf = Math.random() < halfChance ? true : false;
     amInner = Math.random() < innerChance ? true : false;
@@ -208,7 +207,7 @@ function showInstructions() {
 }
 
 function instructionsKeypress(e) {
-    console.log("key pressed");
+    // console.log("key pressed");
     var keynum;
     if (window.event) { // IE
         keynum = e.keyCode;
@@ -223,7 +222,7 @@ function instructionsKeypress(e) {
 
 function showFixation() {
     removeEventListener("keypress", instructionsKeypress);
-    console.log("showFixation");
+    // console.log("showFixation");
     clearCvs();
     // hide cursor
     cvs.style.cursor = 'none'
@@ -250,7 +249,7 @@ function showFixation() {
 }
 
 function showCircles() {
-    console.log("showCircles");
+    // console.log("showCircles");
     clearCvs();
     // select colors
     innerHue = Math.random() * 360;
@@ -269,7 +268,7 @@ function showCircles() {
     ctx.beginPath();
     ctx.arc(cw / 2, ch / 2, innerRadius, 0, 2 * Math.PI);
     ctx.fill();
-    console.log("showing circles");
+    // console.log("showing circles");
     // set timeout for mask
     currTimeout = setTimeout(showMask, 500);
 }
@@ -291,7 +290,7 @@ function showMask() {
 var selectedHue = null;
 var selectedHue2 = null;
 function showQuestions() {
-    console.log("showQuestions");
+    // console.log("showQuestions");
     clearCvs();
     cvs.style.cursor = ""; // make cursor visible
     // draw question
@@ -630,9 +629,9 @@ function showThanks() {
 }
 
 function fullscreen() {
-    console.log("clicked for fullscreen");
+    // console.log("clicked for fullscreen");
     cvs.removeEventListener("click", fullscreen);
-    console.log("removed eventListener");
+    // console.log("removed eventListener");
     elem = document.documentElement;
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -653,7 +652,7 @@ function fullscreen() {
 }
 
 function fullscreenHandler() {
-    console.log("FS event");
+    // console.log("FS event");
     if (document.fullscreenElement || document.webkitFullscreenElement ||
         document.mozFullScreenElement || document.msFullscreenElement) {
         isFS = true;
@@ -665,7 +664,7 @@ function fullscreenHandler() {
     } else {
         isFS = false;
         clearTimeout(currTimeout);
-        console.log("timeout cleared");
+        // console.log("timeout cleared");
         clearListeners();
 
         cvs.addEventListener("click", fullscreen);
@@ -675,7 +674,7 @@ function fullscreenHandler() {
 }
 
 function resizeHandler() {
-    console.log("resize");
+    // console.log("resize");
     cw = ctx.canvas.width = window.innerWidth;
     ch = ctx.canvas.height = window.innerHeight;
     redraw();
