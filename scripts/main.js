@@ -1,3 +1,7 @@
+if (sessionStorage.getItem('color-task-consent') === 'false') {
+    window.location.assign('no-consent.html');
+}
+
 var cvs, ctx; // canvas and canvas-context
 var cw, ch; //canvas width/height
 var currTimeout; // current timer for next screen
@@ -19,6 +23,10 @@ var fixRadius = 10;
 // concentric circle formatting (in pixels)
 var innerRadius = 50;
 var outerRadius = 100;
+var borderRadius = 110;
+
+// border circle formatting (hsl)
+var borderColor = "hsl(186, 0%, 82%, .4)";
 
 // mask formatting
 var maskColor = "white";
@@ -62,7 +70,14 @@ var outerConf; // confidence of outer guess
 
 // here is the method that is called when a trial is completed (only the first)
 function onTrialComplete() {
-    sendDataToAirtable();
+    var passedCheck = localStorage.getItem('color-task-passed-check');
+    var check1 = localStorage.getItem('color-task-check-backward');
+    var check2 = localStorage.getItem('color-task-check-rhyme');
+    localStorage.removeItem('color-task-passed-check');
+    localStorage.removeItem('color-task-check-backward');
+    localStorage.removeItem('color-task-check-rhyme');
+
+    sendDataToAirtable(passedCheck, check1, check2);
     trialComplete = true;
     // do anything you need in this space using the above variables
 
@@ -70,7 +85,7 @@ function onTrialComplete() {
     currTimeout = setTimeout(showThanks, 0);
 }
 
-function sendDataToAirtable() {
+function sendDataToAirtable(passedCheck, check1, check2, captcha) {
 
     var request = {
         url: "https://api.airtable.com/v0/appC0lwXFZtUYA6jp/Test%20Submissions",
@@ -92,7 +107,11 @@ function sendDataToAirtable() {
                         "innerGuess": `${innerGuess}`,
                         "outerGuess": `${outerGuess}`,
                         "innerConf": `${innerConf}`,
-                        "outerConf": `${outerConf}`
+                        "outerConf": `${outerConf}`,
+                        "passedAttentionCheck": `${passedCheck}`,
+                        "attentionCheckBackward": `${check1}`,
+                        "attentionCheckRhyme": `${check2}`,
+                        "passedCaptcha": 'true' // WILL CHANGE — NOT YET CONNECTED
                     }
                 }
             ]
@@ -135,11 +154,9 @@ function init() {
 
     cvs.onmousedown = function () {
         mouseDown = true;
-        // console.log("mouse down", mouseDown);
     }
     cvs.onmouseup = function () {
         mouseDown = false;
-        // console.log("mouse up", mouseDown);
     }
 }
 
@@ -169,7 +186,6 @@ function clearCvs() {
 }
 
 function showMaximize() {
-    // console.log("showMaximize");
     clearCvs();
     ctx.font = "30px Arial";
     ctx.fillStyle = textColor;
@@ -181,13 +197,12 @@ function showMaximize() {
 }
 
 function showInstructions() {
-    // console.log("showInstructions");
     clearCvs();
-    amHalf = Math.random() < halfChance ? true : false;
+    // amHalf = Math.random() < halfChance ? true : false;
+    amHalf = true;
     amInner = Math.random() < innerChance ? true : false;
     innerGuess = null;
     outerGuess = null;
-    // console.log("amHalf:", amHalf, "amInner:", amInner);
     ctx.font = "30px Arial";
     ctx.fillStyle = textColor;
     ctx.textAlign = "center";
@@ -207,7 +222,6 @@ function showInstructions() {
 }
 
 function instructionsKeypress(e) {
-    // console.log("key pressed");
     var keynum;
     if (window.event) { // IE
         keynum = e.keyCode;
@@ -222,7 +236,6 @@ function instructionsKeypress(e) {
 
 function showFixation() {
     removeEventListener("keypress", instructionsKeypress);
-    // console.log("showFixation");
     clearCvs();
     // hide cursor
     cvs.style.cursor = 'none'
@@ -244,22 +257,32 @@ function showFixation() {
         ctx.lineTo(fixX, fixY + fixRadius);
         ctx.stroke();
     }
+    // draw
+    ctx.lineWidth = 22;
+    ctx.strokeStyle = borderColor;
+    ctx.beginPath();
+    ctx.arc(cw / 2, ch / 2, borderRadius, 0, 2 * Math.PI);
+    ctx.stroke();
     // set timeout for circles
     currTimeout = setTimeout(showCircles, 1000);
 }
 
 function showCircles() {
-    // console.log("showCircles");
     clearCvs();
     // select colors
     innerHue = Math.random() * 360;
     outerHue = innerHue + 90 + Math.random() * 180;
+    
     if (outerHue >= 360) {
         outerHue -= 360;
     }
     let innerColor = "hsl(" + innerHue + ",100%, 50%)";
     let outerColor = "hsl(" + outerHue + ",100%, 50%)";
     // draw
+    ctx.fillStyle = borderColor;
+    ctx.beginPath();
+    ctx.arc(cw / 2, ch / 2, borderRadius, 0, 2 * Math.PI);
+    ctx.stroke();
     ctx.fillStyle = outerColor;
     ctx.beginPath();
     ctx.arc(cw / 2, ch / 2, outerRadius, 0, 2 * Math.PI);
@@ -268,7 +291,6 @@ function showCircles() {
     ctx.beginPath();
     ctx.arc(cw / 2, ch / 2, innerRadius, 0, 2 * Math.PI);
     ctx.fill();
-    // console.log("showing circles");
     // set timeout for mask
     currTimeout = setTimeout(showMask, 500);
 }
@@ -290,7 +312,6 @@ function showMask() {
 var selectedHue = null;
 var selectedHue2 = null;
 function showQuestions() {
-    // console.log("showQuestions");
     clearCvs();
     cvs.style.cursor = ""; // make cursor visible
     // draw question
@@ -344,7 +365,6 @@ function showQuestions() {
 }
 
 function selectColor(e) {
-    // console.log("selecting color");
     if (!mouseDown) {
         return;
     }
@@ -581,18 +601,6 @@ function makeSlider(x, y, w, h, min, max, start) {
     }
 }
 
-//VH added
-// const express = require('express');
-// const app = express();
-// app.listen(3000, () => console.log('listening at 3000'));
-// app.use(express.static('public'));
-
-// app.post('/api', (request,response) => {
-//   console.log(request.body);
-
-// });
-
-
 function showThanks() {
     clearCvs();
     // draw actuals vs. guesses
@@ -629,30 +637,22 @@ function showThanks() {
 }
 
 function fullscreen() {
-    // console.log("clicked for fullscreen");
     cvs.removeEventListener("click", fullscreen);
-    // console.log("removed eventListener");
     elem = document.documentElement;
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
-        // console.log("requestFullscreen()");
     } else if (elem.mozRequestFullScreen) {
         elem.mozRequestFullScreen();
-        // console.log("moz requestFullscreen()");
     } else if (elem.webkitRequestFullScreen) {
         elem.webkitRequestFullScreen();
-        // console.log("webkit requestFullscreen()");
     } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
-        // console.log("ms requestFullscreen()");
     } else {
-        // console.log("fullscreen() failed");
         return -1;
     }
 }
 
 function fullscreenHandler() {
-    // console.log("FS event");
     if (document.fullscreenElement || document.webkitFullscreenElement ||
         document.mozFullScreenElement || document.msFullscreenElement) {
         isFS = true;
@@ -664,7 +664,6 @@ function fullscreenHandler() {
     } else {
         isFS = false;
         clearTimeout(currTimeout);
-        // console.log("timeout cleared");
         clearListeners();
 
         cvs.addEventListener("click", fullscreen);
@@ -674,7 +673,6 @@ function fullscreenHandler() {
 }
 
 function resizeHandler() {
-    // console.log("resize");
     cw = ctx.canvas.width = window.innerWidth;
     ch = ctx.canvas.height = window.innerHeight;
     redraw();

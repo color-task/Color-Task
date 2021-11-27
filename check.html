@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #consent {
+        width: 40%;
+        font-size: 1.6em;
+        line-height: 1.35em;
+    }
+</style>
+<body>
+    <div>
+        <label for="backward">Type "38526" backward and remove the middle number:</label>
+        <br/>
+        <input id="backward" type="text">
+    </div>
+    <br/>
+    <div>
+        Which word rhymes with the word dog?
+        <br/>
+        <input class="rhyme-choice" type="radio" id="mouse" name="rhyme">
+        <label for="rhyme"></label>Mouse<br />
+        <input class="rhyme-choice" type="radio" id="frog" name="rhyme">
+        <label for="rhyme"></label>Frog<br />
+        <input class="rhyme-choice" type="radio" id="bat" name="rhyme">
+        <label for="rhyme"></label>Bat<br />
+        <input class="rhyme-choice" type="radio" id="sheep" name="rhyme">
+        <label for="rhyme"></label>Sheep<br />
+        <input class="rhyme-choice" type="radio" id="deer" name="rhyme">
+        <label for="rhyme"></label>Deer<br />
+    </div>
+    <br />
+    <div class="g-recaptcha" id="rcaptcha" data-sitekey="6Lf13V8dAAAAAIR6yLev3NgoamtuIUPScl66_oMp"></div>
+    <span id="captcha" style="color:red"></span>
+    <br/>
+    <br/>
+    <button id="continue">Continue</button>
+</body>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    const get_action = (form) => {
+        const v = grecaptcha.getResponse();
+        console.log(`v`, v);
+        if (v.length == 0) {
+            document.getElementById('captcha').innerHTML = "You can't leave Captcha Code empty";
+            return false;
+        } else {
+            document.getElementById('captcha').innerHTML = "Captcha completed";
+            return true;
+        }
+    };
+</script>
+<script>
+    const whichRadio = () => {
+        document.querySelectorAll('.rhyme-choice').forEach(choice => {
+            if (choice.checked) return choice.id;
+        })
+        return '';
+    };
+
+    const checkForSubmission = () => {
+        let passed = true;
+
+        const step1 = document.querySelector('#backward');
+        if (step1.value !== '6283') passed = false;
+        localStorage.setItem('color-task-check-backward', `${step1.value}`);
+        
+        const step2 = document.querySelector('#frog');
+        if (step2.checked !== true) passed = false;
+        localStorage.setItem('color-task-check-rhyme', `${whichRadio()}`);
+
+        // const step3 = () => {
+        //     get_action('asdf');
+        // };
+
+        // console.log(`step3()`, step3());
+        // if captcha not complete, passed = false
+
+        localStorage.setItem('color-task-passed-check', passed ? 'true' : 'false');
+        window.history.replaceState({}, '', 'color-task.html')
+        window.location.assign('color-task.html');
+    };
+
+    document.querySelector('#continue').onclick = checkForSubmission;
+</script>
+</html>
