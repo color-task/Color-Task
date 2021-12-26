@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task already completed</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6em;
+        line-height: 1.35em;
+    }
+</style>
+
+<body>
+    <div id="already-complete">
+        <p>You have already completed this task. You cannot take it again.</p>
+    </div>
+</body>
+<script>
+    localStorage.setItem('color-task-complete', 'true');
+</script>
+
+</html>

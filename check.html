@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="scripts/checkCompletion.js" type="text/javascript"></script>
+    <title>Pre-task</title>
 </head>
 <style>
     body {
@@ -15,9 +16,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-    #consent {
-        width: 40%;
         font-size: 1.6em;
         line-height: 1.35em;
     }
@@ -25,7 +23,6 @@
 <body>
     <div>
         <label for="backward">Type "38526" backward and remove the middle number:</label>
-        <br/>
         <input id="backward" type="text">
     </div>
     <br/>
@@ -52,9 +49,10 @@
 </body>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
-    const get_action = (form) => {
+    checkCompletion();
+
+    const get_action = () => {
         const v = grecaptcha.getResponse();
-        console.log(`v`, v);
         if (v.length == 0) {
             document.getElementById('captcha').innerHTML = "You can't leave Captcha Code empty";
             return false;
@@ -63,13 +61,13 @@
             return true;
         }
     };
-</script>
-<script>
+
     const whichRadio = () => {
+        let choiceId;
         document.querySelectorAll('.rhyme-choice').forEach(choice => {
-            if (choice.checked) return choice.id;
+            if (choice.checked) choiceId = choice.id;
         })
-        return '';
+        return choiceId || '';
     };
 
     const checkForSubmission = () => {
@@ -83,16 +81,12 @@
         if (step2.checked !== true) passed = false;
         localStorage.setItem('color-task-check-rhyme', `${whichRadio()}`);
 
-        // const step3 = () => {
-        //     get_action('asdf');
-        // };
-
-        // console.log(`step3()`, step3());
-        // if captcha not complete, passed = false
-
         localStorage.setItem('color-task-passed-check', passed ? 'true' : 'false');
-        window.history.replaceState({}, '', 'color-task.html')
-        window.location.assign('color-task.html');
+
+        if (get_action()) {
+            window.history.replaceState({}, '', 'color-task.html');
+            window.location.assign('color-task.html');
+        }
     };
 
     document.querySelector('#continue').onclick = checkForSubmission;

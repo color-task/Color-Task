@@ -1,6 +1,5 @@
-if (sessionStorage.getItem('color-task-consent') === 'false') {
-    window.location.assign('no-consent.html');
-}
+checkConsent()
+checkCompletion();
 
 var cvs, ctx; // canvas and canvas-context
 var cw, ch; //canvas width/height
@@ -70,56 +69,33 @@ var outerConf; // confidence of outer guess
 
 // here is the method that is called when a trial is completed (only the first)
 function onTrialComplete() {
-    var passedCheck = localStorage.getItem('color-task-passed-check');
-    var check1 = localStorage.getItem('color-task-check-backward');
-    var check2 = localStorage.getItem('color-task-check-rhyme');
-    localStorage.removeItem('color-task-passed-check');
-    localStorage.removeItem('color-task-check-backward');
-    localStorage.removeItem('color-task-check-rhyme');
+    // var passedCheck = localStorage.getItem('color-task-passed-check');
+    // var check1 = localStorage.getItem('color-task-check-backward');
+    // var check2 = localStorage.getItem('color-task-check-rhyme');
+    // localStorage.removeItem('color-task-passed-check');
+    // localStorage.removeItem('color-task-check-backward');
+    // localStorage.removeItem('color-task-check-rhyme');
 
-    sendDataToAirtable(passedCheck, check1, check2);
+    localStorage.setItem("amHalf", `${amHalf}`);
+    localStorage.setItem("amInner", `${amInner}`);
+    localStorage.setItem("innerFirst", `${innerFirst}`);
+    localStorage.setItem("innerHue", `${innerHue}`);
+    localStorage.setItem("outerHue", `${outerHue}`);
+    localStorage.setItem("innerGuess", `${innerGuess}`);
+    localStorage.setItem("outerGuess", `${outerGuess}`);
+    localStorage.setItem("innerConf", `${innerConf}`);
+    localStorage.setItem("outerConf", `${outerConf}`);
+
     trialComplete = true;
     // do anything you need in this space using the above variables
-
+    
     // don't change the following line:
     currTimeout = setTimeout(showThanks, 0);
+    setTimeout(() => {
+        window.history.replaceState({}, '', 'post-task.html');
+        window.location.assign('post-task.html');
+    }, 3000);
 }
-
-function sendDataToAirtable(passedCheck, check1, check2, captcha) {
-
-    var request = {
-        url: "https://api.airtable.com/v0/appC0lwXFZtUYA6jp/Test%20Submissions",
-        method: "post",
-        headers: {
-            "Authorization": "Bearer keya42U8bxYJmku87",
-            "Content-Type": "application/json"
-        },
-        data: {
-            "records": [
-                {
-                    "fields": {
-                        "timestamp": new Date(),
-                        "amHalf": `${amHalf}`,
-                        "amInner": `${amInner}`,
-                        "innerFirst": `${innerFirst}`,
-                        "innerHue": `${innerHue}`,
-                        "outerHue": `${outerHue}`,
-                        "innerGuess": `${innerGuess}`,
-                        "outerGuess": `${outerGuess}`,
-                        "innerConf": `${innerConf}`,
-                        "outerConf": `${outerConf}`,
-                        "passedAttentionCheck": `${passedCheck}`,
-                        "attentionCheckBackward": `${check1}`,
-                        "attentionCheckRhyme": `${check2}`,
-                        "passedCaptcha": 'true' // WILL CHANGE — NOT YET CONNECTED
-                    }
-                }
-            ]
-        }
-    };
-
-    axios(request).then(() => console.log('Success! Sent to database')).catch(err => console.log('Error! :', err));
-};
 
 // text constants
 var line1 = "You are about to see two circles one inside another";
@@ -134,8 +110,8 @@ var nextText = "Next";
 var confText0 = "How confident are you about";
 var confText1 = "the color of the INNER portion?";
 var confText2 = "the color of the OUTER portion?";
-var thanksText = "Thank you for participating.";
-var exitText = "Press [esc] to exit fullscreen.";
+var thanksText = "Thank you for participating. Redirecting to final step...";
+// var exitText = "Press [esc] to exit fullscreen.";
 
 var mouseDown = false;
 
@@ -632,8 +608,8 @@ function showThanks() {
     ctx.textBaseline = "middle";
     ctx.fillText(thanksText, cw / 2, ch / 2);
     ctx.font = "bold 30px Arial";
-    ctx.fillText(exitText, cw / 2, ch / 2 + 100);
-    ctx.font = "30px Arial"; // jic
+    // ctx.fillText(exitText, cw / 2, ch / 2 + 100);
+    // ctx.font = "30px Arial";
 }
 
 function fullscreen() {

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="scripts/checkCompletion.js" type="text/javascript"></script>
+    <title>Welcome</title>
 </head>
 <style>
     body {
@@ -45,18 +46,20 @@
     </div>
 </body>
 <script>
-    sessionStorage.setItem('color-task-consent', null);
+    checkCompletion();
+
+    localStorage.setItem('color-task-consent', null);
 
     const agreeButton = document.querySelector('#consent-agree');
     const disagreeButton = document.querySelector('#consent-disagree');
     const continueButton = document.querySelector('#continue');
 
     const setConsentInSession = id => {
-        sessionStorage.setItem('color-task-consent', (id === 'consent-agree' ? 'true' : 'false'));
+        localStorage.setItem('color-task-consent', (id === 'consent-agree' ? 'true' : 'false'));
     };
 
     const checkConsent = () => {
-        const consent = sessionStorage.getItem('color-task-consent');
+        const consent = localStorage.getItem('color-task-consent');
 
         if (consent === 'true') {
             window.history.replaceState({}, '', 'check.html')
@@ -72,6 +75,5 @@
     agreeButton.onclick = e => setConsentInSession(e.currentTarget.id);
     disagreeButton.onclick = e => setConsentInSession(e.currentTarget.id);
     continueButton.onclick = () => checkConsent();
-
 </script>
 </html>
