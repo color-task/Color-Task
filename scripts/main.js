@@ -25,7 +25,7 @@ var outerRadius = 100;
 var borderRadius = 110;
 
 // border circle formatting (hsl)
-var borderColor = "hsl(186, 0%, 82%, .4)";
+var borderColor = "hsl(186, 0%, 82%, .2)";
 
 // mask formatting
 var maskColor = "white";
@@ -233,12 +233,6 @@ function showFixation() {
         ctx.lineTo(fixX, fixY + fixRadius);
         ctx.stroke();
     }
-    // draw
-    ctx.lineWidth = 22;
-    ctx.strokeStyle = borderColor;
-    ctx.beginPath();
-    ctx.arc(cw / 2, ch / 2, borderRadius, 0, 2 * Math.PI);
-    ctx.stroke();
     // set timeout for circles
     currTimeout = setTimeout(showCircles, 1000);
 }
@@ -255,10 +249,6 @@ function showCircles() {
     let innerColor = "hsl(" + innerHue + ",100%, 50%)";
     let outerColor = "hsl(" + outerHue + ",100%, 50%)";
     // draw
-    ctx.fillStyle = borderColor;
-    ctx.beginPath();
-    ctx.arc(cw / 2, ch / 2, borderRadius, 0, 2 * Math.PI);
-    ctx.stroke();
     ctx.fillStyle = outerColor;
     ctx.beginPath();
     ctx.arc(cw / 2, ch / 2, outerRadius, 0, 2 * Math.PI);
@@ -289,6 +279,7 @@ var selectedHue = null;
 var selectedHue2 = null;
 function showQuestions() {
     clearCvs();
+    
     cvs.style.cursor = ""; // make cursor visible
     // draw question
     ctx.fillStyle = textColor;
@@ -307,6 +298,19 @@ function showQuestions() {
     let imgData = ctx.getImageData(cw / 2 - cwOuterRadius, ch / 2 + 100 - cwOuterRadius,
         2 * cwOuterRadius, 2 * cwOuterRadius);
     let data = imgData.data;
+
+    // draw outlines
+    // ouside border
+    ctx.fillStyle = borderColor;
+    ctx.beginPath();
+    ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius - 3, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // inside border
+    ctx.fillStyle = borderColor;
+    ctx.beginPath();
+    ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius - 1, 0, 2 * Math.PI);
+    ctx.stroke();
 
     for (let x = -cwOuterRadius; x < cwOuterRadius; x++) {
         for (let y = -cwOuterRadius; y < cwOuterRadius; y++) {
@@ -344,31 +348,26 @@ function selectColor(e) {
     if (!mouseDown) {
         return;
     }
-    /* LEFT CIRCLE */         //MAKE IT OUTER PART
-    //let x = e.offsetX - cw/4;                                                   // let x = e.offsetX - cw/2;
-    //let y = e.offsetY - ch/2 - 100; 
+    /* LEFT CIRCLE */
     let x = e.offsetX - cw / 3;
-    let y = e.offsetY - ch / 2 - 100;                                               //was ch/2; original left above
+    let y = e.offsetY - ch / 2 - 100;
     let r2 = x * x + y * y;
-    if (r2 < cwOuterRadius * cwOuterRadius && r2 > cwInnerRadius * cwInnerRadius) {    // if(r2 > cwOuterRadius*cwOuterRadius || r2 < cwInnerRadius*cwInnerRadius) {
-        //if(r2 > cwOuterRadius*cwOuterRadius || r2 < cwInnerRadius*cwInnerRadius) {
+    if (r2 < cwOuterRadius * cwOuterRadius && r2 > cwInnerRadius * cwInnerRadius) {
         let theta = Math.atan2(y, x);
         selectedHue = (theta / (2 * Math.PI) + 0.25) * 360;
         if (selectedHue < 0) {
             selectedHue += 360;
         }
-        if (innerFirst) {                                                            // will prob need to change depending of if inner/outer of color wheel portion
+        if (innerFirst) {
             innerGuess = selectedHue;
         } else {
             outerGuess = selectedHue;
         }
         ctx.fillStyle = "hsl(" + selectedHue + ",100%,50%)";
         ctx.beginPath();
-        //ctx.arc(cw/4, ch/2+100, cwInnerRadius + 2, 0, 2*Math.PI);                  //ctx.arc(cw/2, ch/2+100, cwInnerRadius + 2, 0, 2*Math.PI);
-        ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius, 0, 2 * Math.PI);                 //this is for the swatch; can have dif cor than the other two
+        ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius, 0, 2 * Math.PI);
         ctx.fill();
     }
-
 
     if (selectedHue2 == null) {
         // grey mask for the outer ring selection color 
@@ -387,44 +386,29 @@ function selectColor(e) {
         ctx.fill();
     }
 
-    /* RIGHT CIRCLE */        //MAKE IT INNER PART 
-    x = e.offsetX - 2 * cw / 3;                                                       //change for position, probably same as above 
-    y = e.offsetY - ch / 2 - 100;
-    r2 = x * x + y * y;
-    if (r2 < cwOuterRadius * cwOuterRadius && r2 > cwInnerRadius * cwInnerRadius) {     //odd condition.. need to see what it's supposed to be?
+    /* RIGHT CIRCLE */
+    x = e.offsetX - 2 * cw / 3;
+    y = e.offsetY - ch / 2 - 100
+    r2 = x * x + y * y
+    if (r2 < cwOuterRadius * cwOuterRadius && r2 > cwInnerRadius * cwInnerRadius) {
         theta = Math.atan2(y, x);
         selectedHue2 = (theta / (2 * Math.PI) + 0.25) * 360;
         if (selectedHue2 < 0) {
             selectedHue2 += 360;
         }
-        if (!innerFirst) {                                                             // change depending on portion
+        if (!innerFirst) {
             innerGuess = selectedHue2;
         } else {
             outerGuess = selectedHue2;
         }
         ctx.fillStyle = "hsl(" + selectedHue2 + ",100%,50%)";
         ctx.beginPath();
-        //ctx.arc(3*cw/4, ch/2+100, cwInnerRadius + 2, 0, 2*Math.PI);                   //Probably make same as above, but change the var for inner radius 
         ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
         ctx.fill();
     }
 
-
-
     // draw button
     if (innerGuess !== null && outerGuess !== null) {
-
-        //VH added:
-        // const data = {innerGuess,outerGuess};
-        // const options = {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type':'application/json'
-        //   },
-        //   body: JSON.stringify(data)
-        // };
-        // fetch('/api',options);
-
         ctx.fillStyle = nextButtonColor;
         ctx.fillRect(cw + nextButtonXoff, ch + nextButtonYoff, nextButtonW, nextButtonH);
         ctx.fillStyle = nextButtonTextColor;
