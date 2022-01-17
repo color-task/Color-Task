@@ -69,13 +69,6 @@ var outerConf; // confidence of outer guess
 
 // here is the method that is called when a trial is completed (only the first)
 function onTrialComplete() {
-    // var passedCheck = localStorage.getItem('color-task-passed-check');
-    // var check1 = localStorage.getItem('color-task-check-backward');
-    // var check2 = localStorage.getItem('color-task-check-rhyme');
-    // localStorage.removeItem('color-task-passed-check');
-    // localStorage.removeItem('color-task-check-backward');
-    // localStorage.removeItem('color-task-check-rhyme');
-
     localStorage.setItem("amHalf", `${amHalf}`);
     localStorage.setItem("amInner", `${amInner}`);
     localStorage.setItem("innerFirst", `${innerFirst}`);
@@ -90,11 +83,7 @@ function onTrialComplete() {
     // do anything you need in this space using the above variables
     
     // don't change the following line:
-    currTimeout = setTimeout(showThanks, 0);
-    setTimeout(() => {
-        window.history.replaceState({}, '', 'post-task.html');
-        window.location.assign('post-task.html');
-    }, 3000);
+    showThanks();
 }
 
 // text constants
@@ -110,7 +99,7 @@ var nextText = "Next";
 var confText0 = "How confident are you about";
 var confText1 = "the color of the INNER portion?";
 var confText2 = "the color of the OUTER portion?";
-var thanksText = "Thank you for participating. Redirecting to final step...";
+var thanksText = "Thank you for participating. Please click next to move on to final step.";
 // var exitText = "Press [esc] to exit fullscreen.";
 
 var mouseDown = false;
@@ -427,6 +416,15 @@ function nextButton(e) {
     }
 }
 
+function finalNextButton(e) {
+    if (e.offsetX >= cw + nextButtonXoff && e.offsetX <= cw + nextButtonXoff + nextButtonW &&
+    e.offsetY >= ch + nextButtonYoff && e.offsetY <= ch + nextButtonYoff + nextButtonH) {
+        cvs.removeEventListener('click', finalNextButton);
+        window.history.replaceState({}, '', 'post-task.html');
+        window.location.assign('post-task.html');
+    }
+}
+
 var confidenceSelected = false;
 var slider1;
 var slider2;
@@ -591,9 +589,13 @@ function showThanks() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(thanksText, cw / 2, ch / 2);
-    ctx.font = "bold 30px Arial";
-    // ctx.fillText(exitText, cw / 2, ch / 2 + 100);
-    // ctx.font = "30px Arial";
+
+    ctx.fillStyle = nextButtonColor;
+    ctx.fillRect(cw + nextButtonXoff, ch + nextButtonYoff, nextButtonW, nextButtonH);
+    ctx.fillStyle = nextButtonTextColor;
+    ctx.fillText(nextText, cw + nextButtonXoff + nextButtonW / 2, ch + nextButtonYoff + nextButtonH / 2);
+    ctx.font = "30px Arial";
+    cvs.addEventListener('click', finalNextButton);
 }
 
 function fullscreen() {
@@ -688,5 +690,3 @@ function hslToRgb(h, s, l) {
 
     return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
-
-
