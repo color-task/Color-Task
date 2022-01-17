@@ -420,8 +420,8 @@ function finalNextButton(e) {
     if (e.offsetX >= cw + nextButtonXoff && e.offsetX <= cw + nextButtonXoff + nextButtonW &&
     e.offsetY >= ch + nextButtonYoff && e.offsetY <= ch + nextButtonYoff + nextButtonH) {
         cvs.removeEventListener('click', finalNextButton);
-        window.history.replaceState({}, '', 'post-task.html');
-        window.location.assign('post-task.html');
+        window.history.replaceState({}, '', 'color-blind.html');
+        window.location.assign('color-blind.html');
     }
 }
 

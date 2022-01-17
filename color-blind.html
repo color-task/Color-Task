@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/checkCompletion.js" type="text/javascript"></script>
+    <title>Pre-task</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6em;
+        line-height: 1.35em;
+    }
+    #color-image-label, #color-image {
+        margin-left: 60px;
+    }
+</style>
+
+<body>
+    <div id="color-vision-radios">
+        Do you have normal color vision?
+        <br />
+        <input class="color-blind-choice" type="radio" id="yes" name="color-blind">
+        <label for="color-blind"></label>Yes<br />
+        <input class="color-blind-choice" type="radio" id="no" name="color-blind">
+        <label for="color-blind"></label>No<br />
+        <input class="color-blind-choice" type="radio" id="unsure" name="color-blind">
+        <label for="color-blind"></label>Unsure<br />
+    </div>
+    <br />
+    <div>
+        <label id="color-image-label" for="color-image">What number do you see in the image?</label>
+        <br />
+        <img width="500px" src="assets/Ishihara_9.png" alt="">
+        <br />
+        <input id="color-image" type="text">
+    </div>
+    <br />
+    <div>
+        <label id="mturk-id-label" for="mturk-id">Please enter your MTurk Worker ID.</label>
+        <br />
+        <input id="mturk-id" type="text">
+    </div>
+    <br />
+    <button id="continue">Continue</button>
+</body>
+<script>
+    checkCompletion();
+
+    const whichRadio = () => {
+        let choiceId;
+        document.querySelectorAll('.color-blind-choice').forEach(choice => {
+            if (choice.checked) choiceId = choice.id;
+        });
+        return choiceId || '';
+    };
+
+    const checkForSubmission = () => {
+
+        const colorRadiosDiv = document.querySelector('#color-vision-radios');
+        const radioChoice = whichRadio();
+        if (radioChoice.length == 0) {
+            colorRadiosDiv.style.border = '3px solid red';
+            return;
+        }
+        colorRadiosDiv.style.border = '';
+        localStorage.setItem('color-task-check-color-blind', `${radioChoice}`);
+
+        const colorImageTextBox = document.querySelector('#color-image');
+        if (colorImageTextBox.value.length == 0) {
+            colorImageTextBox.style.border = '3px solid red';
+            return;
+        }
+        colorImageTextBox.style.border = '';
+        localStorage.setItem('color-task-check-color-image', `${colorImageTextBox.value}`);
+
+        const mTurkIdTextBox = document.querySelector('#mturk-id');
+        if (mTurkIdTextBox.value.length == 0) {
+            mTurkIdTextBox.style.border = '3px solid red';
+            return;
+        }
+        mTurkIdTextBox.style.border = '';
+        localStorage.setItem('mturk-id', `${mTurkIdTextBox.value}`);
+
+        window.history.replaceState({}, '', 'post-task.html');
+        window.location.assign('post-task.html');
+    };
+
+    document.querySelector('#continue').onclick = checkForSubmission;
+</script>
+
+</html>
