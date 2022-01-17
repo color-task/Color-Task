@@ -91,7 +91,8 @@ var line1 = "You are about to see two circles one inside another";
 var line2v1 = "Concentrate on the inner circle";
 var line2v2 = "Concentrate on the outer circle";
 var line2v3 = "Concentrate on both circles";
-var line3 = "Click [space] when you are ready";
+var line3 = "Please pay attention because the image will appear briefly";
+var line4 = "Click [space] when you are ready";
 var prompt = "Try your best to recreate the colors you saw on the wheels below."
 var question1 = "Inner color:";
 var question2 = "Outer color:";
@@ -100,7 +101,6 @@ var confText0 = "How confident are you about";
 var confText1 = "the color of the INNER portion?";
 var confText2 = "the color of the OUTER portion?";
 var thanksText = "Thank you for participating. Please click next to move on to final step.";
-// var exitText = "Press [esc] to exit fullscreen.";
 
 var mouseDown = false;
 
@@ -183,6 +183,7 @@ function showInstructions() {
     }
     ctx.font = "30px Arial";
     ctx.fillText(line3, cw / 2, ch / 2 + 100);
+    ctx.fillText(line4, cw / 2, ch / 2 + 200);
     addEventListener("keypress", instructionsKeypress);
 }
 
