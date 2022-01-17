@@ -335,9 +335,20 @@ function showQuestions() {
 }
 
 function selectColor(e) {
-    if (!mouseDown) {
-        return;
-    }
+    if (!mouseDown) return;
+
+    const clearInnerDisc = () => {
+        ctx.fillStyle = "#7f7f7f";
+        ctx.beginPath();
+        ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
+        ctx.fill();
+    };
+
+    const colorInnerDisc = () => {
+        ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
+        ctx.fill();
+    };
+
     /* LEFT CIRCLE */
     let x = e.offsetX - cw / 3;
     let y = e.offsetY - ch / 2 - 100;
@@ -353,27 +364,21 @@ function selectColor(e) {
         } else {
             outerGuess = selectedHue;
         }
-        ctx.fillStyle = "hsl(" + selectedHue + ",100%,50%)";
+        ctx.fillStyle = `hsl(${selectedHue},100%,50%)`;
         ctx.beginPath();
-        ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
-    if (selectedHue2 == null) {
-        // grey mask for the outer ring selection color 
-        // will be similar to the lower code for right circle 
-        ctx.fillStyle = "#7f7f7f";
-        ctx.beginPath();
-        ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
-    if (selectedHue2 !== null) {
-        //making sure there's no grey mask if someone already selected for the inner 
-        ctx.fillStyle = "hsl(" + selectedHue2 + ",100%,50%)";
-        ctx.beginPath();
-        ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
-        ctx.fill();
+        if (innerFirst) {
+            colorInnerDisc();
+        } else {
+            ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius, 0, 2 * Math.PI);
+            ctx.fill();
+            if (selectedHue2) {
+                ctx.fillStyle = `hsl(${selectedHue2},100%,50%)`;
+                ctx.beginPath();
+                colorInnerDisc();
+            } else {
+                clearInnerDisc();
+            }
+        }
     }
 
     /* RIGHT CIRCLE */
@@ -391,10 +396,21 @@ function selectColor(e) {
         } else {
             outerGuess = selectedHue2;
         }
-        ctx.fillStyle = "hsl(" + selectedHue2 + ",100%,50%)";
+        ctx.fillStyle = `hsl(${selectedHue2},100%,50%)`;
         ctx.beginPath();
-        ctx.arc(4 * cw / 8, ch / 2 - 50, cwInnerRadius + 2, 0, 2 * Math.PI);
-        ctx.fill();
+        if (innerFirst) {
+            ctx.arc(4 * cw / 8, ch / 2 - 50, outerRadius, 0, 2 * Math.PI);
+            ctx.fill();
+            if (selectedHue) {
+                ctx.fillStyle = `hsl(${selectedHue},100%,50%)`;
+                ctx.beginPath();
+                colorInnerDisc();
+            } else {
+                clearInnerDisc();
+            }
+        } else {
+            colorInnerDisc();
+        }
     }
 
     // draw button
