@@ -51,10 +51,17 @@
         <input id="mturk-id" type="text">
     </div>
     <br />
+    <div>
+        <label id="completion-code-label" for="completion-code">Completion code:</label>
+        <span id="completion-code-text"></span>
+    </div>
+    <br />
     <button id="continue">Continue</button>
 </body>
 <script>
     checkCompletion();
+
+    document.getElementById("completion-code-text").innerText = localStorage.getItem('color-task-uuid');
 
     const whichRadio = () => {
         let choiceId;

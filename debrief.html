@@ -30,5 +30,13 @@
     <div style="width: 50vw;">
         Reference for further information: Eitam, B., Yeshurun, Y., &amp; Hassan, K. (2013). Blinded by irrelevance: Pure irrelevance induced “blindness.” Journal of Experimental Psychology: Human Perception and Performance, 39(3), 611-615.
     </div>
+    <br>
+    <div>
+        <label id="completion-code-label" for="completion-code">Completion code:</label>
+        <span id="completion-code-text"></span>
+    </div>
 </body>
+<script>
+    document.getElementById("completion-code-text").innerText = localStorage.getItem('color-task-uuid');
+</script>
 </html>

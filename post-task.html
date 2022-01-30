@@ -117,6 +117,7 @@
         const colorVisionImage = localStorage.getItem('color-task-check-color-image');
 
         const mTurkId = localStorage.getItem('mturk-id');
+        const completionCode = localStorage.getItem('color-task-uuid');
 
         const fields = {
             "timestamp": `${timestamp}`,
@@ -135,6 +136,7 @@
             "normalColorVision": `${normalColorVision}`,
             "colorVisionImage": `${colorVisionImage}`,
             "mTurkId": `${mTurkId}`,
+            "completionCode": `${completionCode}`,
             "userThoughtTaskWasAbout": `${thoughts}`,
             "commentsOrQuestions": `${comments}`,
         }
