@@ -459,8 +459,6 @@ function showConfidence() {
     cvs.addEventListener('mousemove', handleMouseMove);
     // watch for next button
     cvs.addEventListener("click", nextButton2);
-
-    // currTimout = setTimeout(onTrialComplete, 0);
 }
 
 function redrawConfidence() {
@@ -475,8 +473,8 @@ function redrawConfidence() {
         ctx.fillText(confText1, cw / 4, ch / 2 - 100);
         ctx.fillText(confText2, 3 * cw / 4, ch / 2 - 100);
     } else {
-        ctx.fillText(confText1, cw / 4, ch / 2 - 100);
-        ctx.fillText(confText2, 3 * cw / 4, ch / 2 - 100);
+        ctx.fillText(confText2, cw / 4, ch / 2 - 100);
+        ctx.fillText(confText1, 3 * cw / 4, ch / 2 - 100);
     }
 
     slider1.draw()
