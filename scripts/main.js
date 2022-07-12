@@ -100,6 +100,7 @@ var nextText = "Next";
 var confText0 = "How confident are you about";
 var confText1 = "the color of the INNER portion?";
 var confText2 = "the color of the OUTER portion?";
+var confText3 = "(0 = no confidence and 100 = maximum confidence)";
 var thanksText = "Thank you for participating. Please click next to move on to final step.";
 
 var mouseDown = false;
@@ -476,6 +477,8 @@ function redrawConfidence() {
         ctx.fillText(confText2, cw / 4, ch / 2 - 100);
         ctx.fillText(confText1, 3 * cw / 4, ch / 2 - 100);
     }
+    ctx.fillText(confText3, cw / 4, ch / 2 - 50);
+    ctx.fillText(confText3, 3 * cw / 4, ch / 2 - 50);
 
     slider1.draw()
     slider2.draw()
@@ -555,7 +558,9 @@ function makeSlider(x, y, w, h, min, max, start) {
             ctx.fillStyle = textColor;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(Math.floor(this.value), this.x + this.w / 2, this.y + this.h / 2 + 50);
+            ctx.fillText(0, this.x, this.y + this.h / 2 + 50);
+            ctx.fillText(50, this.x + this.w / 2, this.y + this.h / 2 + 50);
+            ctx.fillText(100, this.x + this.w, this.y + this.h / 2 + 50);
         },
         contains: function (x2, y2) {
             return this.x - 2 < x2 && this.x + this.w + 2 > x2 &&
