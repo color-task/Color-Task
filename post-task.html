@@ -64,7 +64,6 @@
             localStorage.removeItem('color-task-consent');
             localStorage.removeItem('color-task-check-backward');
             localStorage.removeItem('color-task-check-rhyme');
-            localStorage.removeItem('color-task-passed-check');
             localStorage.removeItem('timestamp');
             localStorage.removeItem('amHalf');
             localStorage.removeItem('amInner');
@@ -77,7 +76,9 @@
             localStorage.removeItem('outerConf');
             localStorage.removeItem('color-task-check-color-blind');
             localStorage.removeItem('color-task-check-color-image');
-            localStorage.removeItem('mturk-id');
+            localStorage.removeItem('color-task-prolificPid');
+            localStorage.removeItem('color-task-studyId');
+            localStorage.removeItem('color-task-sessionId');
 
             localStorage.setItem('color-task-complete', 'true');
             window.history.replaceState({}, '', 'debrief.html');
@@ -85,9 +86,7 @@
         }).catch(err => console.log('Error! :', err));
     };
     
-    
     const onSubmit = () => {
-
         const thoughtsTextarea = document.querySelector('#thoughts');
         thoughtsTextarea.style.border = '';
         const thoughts = thoughtsTextarea.value;
@@ -116,8 +115,9 @@
         const normalColorVision = localStorage.getItem('color-task-check-color-blind');
         const colorVisionImage = localStorage.getItem('color-task-check-color-image');
 
-        const mTurkId = localStorage.getItem('mturk-id');
-        const completionCode = localStorage.getItem('color-task-uuid');
+        const prolificPid = localStorage.getItem('color-task-prolificPid');
+        const studyId = localStorage.getItem('color-task-studyId');
+        const sessionId = localStorage.getItem('color-task-sessionId');
 
         const fields = {
             "timestamp": `${timestamp}`,
@@ -135,8 +135,9 @@
             "attentionCheckRhyme": `${check2}`,
             "normalColorVision": `${normalColorVision}`,
             "colorVisionImage": `${colorVisionImage}`,
-            "mTurkId": `${mTurkId}`,
-            "completionCode": `${completionCode}`,
+            "prolificPid": `${prolificPid}`,
+            "studyId": `${studyId}`,
+            "sessionId": `${sessionId}`,
             "userThoughtTaskWasAbout": `${thoughts}`,
             "commentsOrQuestions": `${comments}`,
         }

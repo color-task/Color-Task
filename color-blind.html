@@ -45,23 +45,10 @@
         <input id="color-image" type="text">
     </div>
     <br />
-    <div>
-        <label id="mturk-id-label" for="mturk-id">Please enter your MTurk Worker ID.</label>
-        <br />
-        <input id="mturk-id" type="text">
-    </div>
-    <br />
-    <div>
-        <label id="completion-code-label" for="completion-code">Completion code:</label>
-        <span id="completion-code-text"></span>
-    </div>
-    <br />
     <button id="continue">Continue</button>
 </body>
 <script>
     checkCompletion();
-
-    document.getElementById("completion-code-text").innerText = localStorage.getItem('color-task-uuid');
 
     const whichRadio = () => {
         let choiceId;
@@ -89,14 +76,6 @@
         }
         colorImageTextBox.style.border = '';
         localStorage.setItem('color-task-check-color-image', `${colorImageTextBox.value}`);
-
-        const mTurkIdTextBox = document.querySelector('#mturk-id');
-        if (mTurkIdTextBox.value.length == 0) {
-            mTurkIdTextBox.style.border = '3px solid red';
-            return;
-        }
-        mTurkIdTextBox.style.border = '';
-        localStorage.setItem('mturk-id', `${mTurkIdTextBox.value}`);
 
         window.history.replaceState({}, '', 'post-task.html');
         window.location.assign('post-task.html');

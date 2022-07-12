@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/getPassFailCode.js" type="text/javascript"></script>
     <title>Task already completed</title>
 </head>
 <style>
@@ -20,19 +20,18 @@
         line-height: 1.35em;
     }
 </style>
-
 <body>
     <div id="already-complete">
         <p>You have already completed this task. You cannot take it again.</p>
     </div>
     <div>
-        <label id="completion-code-label" for="completion-code">Completion code:</label>
+        <b><label id="completion-code-label" for="completion-code">Completion code:</label></b>
         <span id="completion-code-text"></span>
     </div>
 </body>
 <script>
     localStorage.setItem('color-task-complete', 'true');
-    document.getElementById("completion-code-text").innerText = localStorage.getItem('color-task-uuid');
+    document.getElementById("completion-code-text").innerText = getPassFailCode();
 </script>
 
 </html>
