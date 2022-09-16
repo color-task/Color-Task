@@ -43,21 +43,21 @@
     checkCompletion();
     saveQueryStringParams();
 
-    localStorage.setItem('color-task-eighteen-or-older', null);
+    localStorage.setItem('is-over-eighteen', null);
 
     const youngerThan18Button = document.querySelector('#younger-18');
     const eighteenOrOlderButton = document.querySelector('#eighteen-or-older');
     const continueButton = document.querySelector('#continue');
 
     const setConsentInSession = id => {
-        localStorage.setItem('color-task-eighteen-or-older', (id === 'eighteen-or-older' ? 'true' : 'false'));
+        localStorage.setItem('is-over-eighteen', (id === 'eighteen-or-older' ? 'true' : 'false'));
     };
 
     const checkContinue = () => {
-        const eighteenOrOlder = localStorage.getItem('color-task-eighteen-or-older');
+        const eighteenOrOlder = localStorage.getItem('is-over-eighteen');
 
         if (eighteenOrOlder === 'null') {
-            window.alert('Please provide consent before continuing');
+            window.alert('Please respond before continuing');
         } else {
             window.history.replaceState({}, '', 'color-task.html');
             window.location.assign('color-task.html');

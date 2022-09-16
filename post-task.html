@@ -61,8 +61,7 @@
 
         axios(request).then(() => {
             console.log('Success! Sent to database');
-            localStorage.removeItem('color-task-check-backward');
-            localStorage.removeItem('color-task-check-rhyme');
+            localStorage.removeItem('is-over-eighteen');
             localStorage.removeItem('timestamp');
             localStorage.removeItem('amHalf');
             localStorage.removeItem('amInner');
@@ -107,9 +106,7 @@
         const innerConf = localStorage.getItem("innerConf");
         const outerConf = localStorage.getItem("outerConf");
         
-        const passedCheck = localStorage.getItem('color-task-passed-check');
-        const check1 = localStorage.getItem('color-task-check-backward');
-        const check2 = localStorage.getItem('color-task-check-rhyme');
+        const isOverEighteen = localStorage.getItem('is-over-eighteen');
 
         const normalColorVision = localStorage.getItem('color-task-check-color-blind');
         const colorVisionImage = localStorage.getItem('color-task-check-color-image');
@@ -129,9 +126,7 @@
             "outerGuess": `${outerGuess}`,
             "innerConf": `${innerConf}`,
             "outerConf": `${outerConf}`,
-            "passedAttentionCheck": `${passedCheck}`,
-            "attentionCheckBackward": `${check1}`,
-            "attentionCheckRhyme": `${check2}`,
+            "isOverEighteen": `${isOverEighteen}`,
             "normalColorVision": `${normalColorVision}`,
             "colorVisionImage": `${colorVisionImage}`,
             "prolificPid": `${prolificPid}`,
