@@ -1,4 +1,3 @@
-checkConsent()
 checkCompletion();
 
 var cvs, ctx; // canvas and canvas-context
