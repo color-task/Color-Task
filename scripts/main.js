@@ -591,17 +591,19 @@ function showThanks() {
     ctx.fillStyle = textColor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Actual", cw / 2, ch / 2 - 225);
+
+    ctx.fillText("Actual", cw / 2 - 175, ch / 2 - 174);
+    ctx.fillText("Guess", cw / 2 - 175, ch / 2 - 116);
+    ctx.fillText("Outer", cw / 2 - 50, ch / 2 - 225);
+    ctx.fillText("Inner", cw / 2 + 50, ch / 2 - 225);
     ctx.fillStyle = "hsl(" + outerHue + ",100%,50%)";
     ctx.fillRect(outerX, ch / 2 - 200, 100, 50);
     ctx.fillStyle = "hsl(" + innerHue + ",100%,50%)";
     ctx.fillRect(innerX, ch / 2 - 200, 100, 50);
     ctx.fillStyle = "hsl(" + outerGuess + ",100%,50%)";
-    ctx.fillRect(outerX, ch / 2 - 150, 100, 50);
+    ctx.fillRect(outerX, ch / 2 - 140, 100, 50);
     ctx.fillStyle = "hsl(" + innerGuess + ",100%,50%)";
-    ctx.fillRect(innerX, ch / 2 - 150, 100, 50);
-    ctx.fillStyle = textColor;
-    ctx.fillText("Guess", cw / 2, ch / 2 - 75);
+    ctx.fillRect(innerX, ch / 2 - 140, 100, 50);
     // thanks and bye
     ctx.font = "30px Arial";
     ctx.fillStyle = textColor;
