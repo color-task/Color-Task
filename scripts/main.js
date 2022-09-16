@@ -86,7 +86,7 @@ function onTrialComplete() {
 }
 
 // text constants
-var line1 = "You are about to see two circles one inside another";
+var line1 = "You are about to see two circles, with one inside the other";
 var line2v1 = "Concentrate on the inner circle";
 var line2v2 = "Concentrate on the outer circle";
 var line2v3 = "Concentrate on both circles";
