@@ -58,6 +58,9 @@
 
         if (eighteenOrOlder === 'null') {
             window.alert('Please respond before continuing');
+        } else if (eighteenOrOlder === 'false') {
+            window.history.replaceState({}, '', 'ethics-permission.html');
+            window.location.assign('ethics-permission.html');
         } else {
             window.history.replaceState({}, '', 'color-task.html');
             window.location.assign('color-task.html');
