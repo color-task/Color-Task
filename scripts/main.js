@@ -609,7 +609,7 @@ function showThanks() {
     ctx.fillStyle = textColor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(thanksText, cw / 2, ch / 2);
+    /* ctx.fillText(thanksText, cw / 2, ch / 2); */
 
     ctx.fillStyle = nextButtonColor;
     ctx.fillRect(cw + nextButtonXoff, ch + nextButtonYoff, nextButtonW, nextButtonH);
