@@ -442,7 +442,8 @@ function finalNextButton(e) {
     }
 }
 
-var confidenceSelected = false;
+var confidence1Selected = false;
+var confidence2Selected = false;
 var slider1;
 var slider2;
 function showConfidence() {
@@ -510,12 +511,12 @@ function nextButton2(e) {
 var dragging
 function handleMouseDown(e) {
     if (slider1.contains(e.clientX, e.clientY)) {
-        confidenceSelected = true;
+        confidence1Selected = true;
         dragging = slider1;
         dragging.update(e.clientX, e.clientY);
     }
     if (slider2.contains(e.clientX, e.clientY)) {
-        confidenceSelected = true;
+        confidence2Selected = true;
         dragging = slider2;
         dragging.update(e.clientX, e.clientY);
     }
