@@ -496,15 +496,11 @@ function redrawConfidence() {
 
 function showConfidenceErrorText() {
     ctx.font = "30px Arial";
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(confidenceErrorText, cw / 2, ch / 2 + 350);
     confidenceErrorIsShown = true;
-}
-
-function logHideConfidenceErrorText() {
-    confidenceErrorIsShown = false;
 }
 
 function nextButton2(e) {
@@ -536,13 +532,13 @@ function nextButton2(e) {
 var dragging
 function handleMouseDown(e) {
     if (slider1.contains(e.clientX, e.clientY)) {
-        logHideConfidenceErrorText();
+        confidenceErrorIsShown = false;
         confidence1Changed = true;
         dragging = slider1;
         dragging.update(e.clientX, e.clientY);
     }
     if (slider2.contains(e.clientX, e.clientY)) {
-        logHideConfidenceErrorText();
+        confidenceErrorIsShown = false;
         confidence2Changed = true;
         dragging = slider2;
         dragging.update(e.clientX, e.clientY);
