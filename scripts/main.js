@@ -101,6 +101,10 @@ var confText1 = "the color of the INNER portion?";
 var confText2 = "the color of the OUTER portion?";
 var confText3 = "(1 = no confidence and 100 = maximum confidence)";
 var thanksText = "Thank you for participating. Please click next to move on to final step.";
+var confidenceErrorText = "Please select a response to both questions by clicking on the cursor";
+
+// confidence error flag
+var confidenceErrorIsShown = false;
 
 var mouseDown = false;
 
@@ -442,8 +446,8 @@ function finalNextButton(e) {
     }
 }
 
-var confidence1Selected = false;
-var confidence2Selected = false;
+var confidence1Changed = false;
+var confidence2Changed = false;
 var slider1;
 var slider2;
 function showConfidence() {
@@ -490,9 +494,30 @@ function redrawConfidence() {
     ctx.fillText(nextText, cw + nextButtonXoff + nextButtonW / 2, ch + nextButtonYoff + nextButtonH / 2);
 }
 
+function showConfidenceErrorText() {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(confidenceErrorText, cw / 2, ch / 2 + 350);
+    confidenceErrorIsShown = true;
+}
+
+function logHideConfidenceErrorText() {
+    confidenceErrorIsShown = false;
+}
+
 function nextButton2(e) {
     if (e.offsetX >= cw + nextButtonXoff && e.offsetX <= cw + nextButtonXoff + nextButtonW &&
         e.offsetY >= ch + nextButtonYoff && e.offsetY <= ch + nextButtonYoff + nextButtonH) {
+        if (
+            !confidence1Changed || !confidence2Changed
+        ) {
+            if (!confidenceErrorIsShown) {
+                showConfidenceErrorText();
+            }
+            return;
+        }
         cvs.removeEventListener('mousedown', handleMouseDown);
         cvs.removeEventListener('mouseup', handleMouseUp);
         cvs.removeEventListener('mousemove', handleMouseMove);
@@ -511,12 +536,14 @@ function nextButton2(e) {
 var dragging
 function handleMouseDown(e) {
     if (slider1.contains(e.clientX, e.clientY)) {
-        confidence1Selected = true;
+        logHideConfidenceErrorText();
+        confidence1Changed = true;
         dragging = slider1;
         dragging.update(e.clientX, e.clientY);
     }
     if (slider2.contains(e.clientX, e.clientY)) {
-        confidence2Selected = true;
+        logHideConfidenceErrorText();
+        confidence2Changed = true;
         dragging = slider2;
         dragging.update(e.clientX, e.clientY);
     }
