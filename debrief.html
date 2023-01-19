@@ -42,6 +42,15 @@
     <div style="width: 50vw; margin-top: 25px">
         If you have any questions, you can message us via Prolific and we will be happy to reply.
     </div>
+    
+    <button id="myButton" class="float-left submit-button" >Home</button>
+
+    <script type="text/javascript">
+        document.getElementById("myButton").onclick = function () {
+            location.href = "www.youtube.com";
+        };
+    </script>
+   
 </body>
 <script>
     document.getElementById("completion-code-text").innerText = getPassFailCode();
