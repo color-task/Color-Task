@@ -1,4 +1,4 @@
-checkCompletion();
+// checkCompletion();
 
 var cvs, ctx; // canvas and canvas-context
 var cw, ch; //canvas width/height
