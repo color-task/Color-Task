@@ -618,8 +618,8 @@ function showThanks() {
 
     ctx.fillText("Actual", cw / 2 - 175, ch / 2 - 174);
     ctx.fillText("Guess", cw / 2 - 175, ch / 2 - 116);
-    ctx.fillText("Inner", cw / 2 - 50, ch / 2 - 225);
-    ctx.fillText("Outer", cw / 2 + 50, ch / 2 - 225);
+    ctx.fillText("Outer", cw / 2 - 50, ch / 2 - 225);
+    ctx.fillText("Inner", cw / 2 + 50, ch / 2 - 225);
     ctx.fillStyle = "hsl(" + outerHue + ",100%,50%)";
     ctx.fillRect(outerX, ch / 2 - 200, 100, 50);
     ctx.fillStyle = "hsl(" + innerHue + ",100%,50%)";
