@@ -74,9 +74,9 @@
             localStorage.removeItem('outerConf');
             localStorage.removeItem('color-task-check-color-blind');
             localStorage.removeItem('color-task-check-color-image');
-            localStorage.removeItem('color-task-prolificPid');
-            localStorage.removeItem('color-task-studyId');
-            localStorage.removeItem('color-task-sessionId');
+            localStorage.removeItem('color-task-PROLIFIC_PID');
+            localStorage.removeItem('color-task-STUDY_ID');
+            localStorage.removeItem('color-task-SESSION_ID');
 
             localStorage.setItem('color-task-complete', 'true');
             window.history.replaceState({}, '', 'debrief.html');
@@ -111,9 +111,9 @@
         const normalColorVision = localStorage.getItem('color-task-check-color-blind');
         const colorVisionImage = localStorage.getItem('color-task-check-color-image');
 
-        const prolificPid = localStorage.getItem('color-task-prolificPid');
-        const studyId = localStorage.getItem('color-task-studyId');
-        const sessionId = localStorage.getItem('color-task-sessionId');
+        const PROLIFIC_PID = localStorage.getItem('color-task-PROLIFIC_PID');
+        const STUDY_ID = localStorage.getItem('color-task-STUDY_ID');
+        const SESSION_ID = localStorage.getItem('color-task-SESSION_ID');
 
         const fields = {
             "timestamp": `${timestamp}`,
@@ -129,9 +129,9 @@
             "isOverEighteen": `${isOverEighteen}`,
             "normalColorVision": `${normalColorVision}`,
             "colorVisionImage": `${colorVisionImage}`,
-            "prolificPid": `${prolificPid}`,
-            "studyId": `${studyId}`,
-            "sessionId": `${sessionId}`,
+            "PROLIFIC_PID": `${PROLIFIC_PID}`,
+            "STUDY_ID": `${STUDY_ID}`,
+            "SESSION_ID": `${SESSION_ID}`,
             "userThoughtTaskWasAbout": `${thoughts}`,
             "commentsOrQuestions": `${comments}`,
         }
