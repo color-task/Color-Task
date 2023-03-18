@@ -607,7 +607,7 @@ function showThanks() {
     // draw actuals vs. guesses
     let innerX = cw / 2
     let outerX = cw / 2 - 100
-    if (innerFirst) {
+    if (amInner) {
         innerX = cw / 2 - 100
         outerX = cw / 2
     }
