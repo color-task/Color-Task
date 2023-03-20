@@ -607,10 +607,10 @@ function showThanks() {
     // draw actuals vs. guesses
     let innerX = cw / 2
     let outerX = cw / 2 - 100
-//     if (amInner) {
-//         innerX = cw / 2 - 100
-//         outerX = cw / 2
-//     }
+    if (amInner) {
+        innerX = cw / 2 - 100
+        outerX = cw / 2
+    }
     ctx.font = "30px Arial"
     ctx.fillStyle = textColor;
     ctx.textAlign = "center";
